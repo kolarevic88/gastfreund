@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import _ from 'lodash';
 import {useDispatch, useSelector} from "react-redux";
 
@@ -11,9 +11,10 @@ import KanbanTask from "../KanbanTask/KanbanTask";
 import {moveTask, updateStore} from "../../store/tasksSlice";
 import {eventOptions} from "../../helpers/eventOptions";
 import useDebounce from "../../hooks/useDebounce";
+import Search from "../Search/Search";
 
 
-function Kanban() {
+function Kanban(): JSX.Element {
     const columns: Column[] = useSelector((state: RootState) => state.columns);
     const [activeTask, setActiveTask] = useState({} as Task);
     const [search, setSearch] = useState('');
@@ -37,7 +38,6 @@ function Kanban() {
         if(!eventObject.id || !eventObject.overId || eventObject.isOverSameColumn){
             return
         }
-        console.log('okida se over', event);
         dispatch(moveTask({
             overId: eventObject.overId,
             id: eventObject.id,
@@ -47,7 +47,6 @@ function Kanban() {
     function handleDragEnd(event: any): void{
         const eventObject = eventOptions(event);
         if(eventObject.id && eventObject.overId && eventObject.isOverSameColumn){
-            console.log('okida se end', event);
             dispatch(moveTask({
                 overId: eventObject.overId,
                 id: eventObject.id,
@@ -56,7 +55,7 @@ function Kanban() {
         }
         dispatch(updateStore())
     }
-    const onSearch = (params: any): void => {
+    const onSearch = (params: ChangeEvent<HTMLInputElement>): void => {
         setSearch(params.target.value);
     };
 
@@ -68,17 +67,7 @@ function Kanban() {
             onDragEnd={handleDragEnd}
         >
             <Wrapper className="d-flex flex-column">
-                <div className="d-flex justify-content-end py-2">
-                    <div className="w-25">
-                        <input
-                            onChange={onSearch}
-                            type="text"
-                            className="form-control"
-                            placeholder="Search..."
-                            aria-label="Search"
-                        />
-                    </div>
-                </div>
+                <Search onSearch={onSearch}/>
                 <div className='row d-flex flex-grow-1'>
                     { _.map(columns, (item: Column)=>
                         <KanbanColumn

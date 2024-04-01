@@ -11,7 +11,7 @@ import ModalWrapper from "../../shared/Modal/ModalWrapper";
 import AddTask from "../AddTask/AddTask";
 
 
-function KanbanTask({description, id, status}: Task) {
+function KanbanTask({description, id, status}: Task): JSX.Element {
     const [isOpenModal, setIsOpenModal] = useState(false)
     const dispatch = useDispatch()
 
@@ -53,13 +53,16 @@ function KanbanTask({description, id, status}: Task) {
                 className="d-flex justify-content-center align-items-center mb-3 w-100"
             >
                 <Container
+                    data-testid="kanban-task-item"
                     $bgc={getBackgroundColor(status)}
                     className="d-flex justify-content-center align-items-center fs-5 fw-bold h-100 default-cursor"
                     onDoubleClick={handleDoubleClick}
                 >
-                    <Close>
+                    <Close
+                        data-testid = "kanban-task-remove-item"
+                        onClick={handleClick}
+                    >
                         <i
-                            onClick={handleClick}
                             className="bi bi-x pointer"
                         />
                     </Close>

@@ -18,7 +18,7 @@ interface KanbanColumnInterface {
     search: string;
 }
 
-function KanbanColumn({type, title, search}: KanbanColumnInterface) {
+function KanbanColumn({type, title, search}: KanbanColumnInterface): JSX.Element {
     const tasks: Task[] = useSelector((state: RootState) => filteredState(state, type));
     const { setNodeRef } = useDroppable({
         id: type

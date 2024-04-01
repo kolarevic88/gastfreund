@@ -17,7 +17,7 @@ interface AddTaskInterface {
     status: string;
     onClose: (arg: boolean) => void
 }
-function AddTask({data, id, status, onClose}: AddTaskInterface) {
+function AddTask({data, id, status, onClose}: AddTaskInterface): JSX.Element {
     const dispatch = useDispatch()
 
     const validate = (values: Data) => {
@@ -50,21 +50,22 @@ function AddTask({data, id, status, onClose}: AddTaskInterface) {
         onClose(false);
     }
     return (
-        <form noValidate onSubmit={formik.handleSubmit}>
-            <div
-                className={cx("d-flex flex-column")}
+        <div
+            data-testid = "add-task-modal"
+            className={cx("d-flex flex-column")}
+        >
+            <Header
+                className='d-flex justify-content-between align-items-center p-2 w-100'
             >
-                <Header
-                    className='d-flex justify-content-between align-items-center p-2 w-100'
+                <h4>{id ? 'Edit Task' : 'Add Task'}</h4>
+                <CloseButton
+                    type='button'
+                    onClick={handleClick}
                 >
-                    <h4>{id ? 'Edit Task' : 'Add Task'}</h4>
-                    <CloseButton
-                        type='button'
-                        onClick={handleClick}
-                    >
-                        <i className="bi bi-x-lg"></i>
-                    </CloseButton>
-                </Header>
+                    <i className="bi bi-x-lg"></i>
+                </CloseButton>
+            </Header>
+            <form noValidate onSubmit={formik.handleSubmit}>
                 <div className="form-floating p-2 w-100">
                     <Textarea
                         className={cx(formik?.errors?.data && 'is-invalid', 'form-control')}
@@ -90,8 +91,8 @@ function AddTask({data, id, status, onClose}: AddTaskInterface) {
                         Save
                     </button>
                 </Footer>
-            </div>
-        </form>
+            </form>
+        </div>
     );
 }
 export default AddTask;

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {Wrapper} from './KanbanHeader.style';
+import {Add, Wrapper} from './KanbanHeader.style';
 import getBackgroundColor from "../../helpers/getBackgroundColor";
 import ModalWrapper from "../../shared/Modal/ModalWrapper";
 import AddTask from "../AddTask/AddTask";
@@ -10,8 +10,11 @@ interface KanbanHeaderInterface {
     title: string;
     type: string;
 }
-function KanbanHeader({total, title, type}: KanbanHeaderInterface) {
+function KanbanHeader({total, title, type}: KanbanHeaderInterface): JSX.Element {
     const [isOpenModal, setIsOpenModal] = useState(false)
+    function handleClick(): void{
+        setIsOpenModal(true)
+    }
     return (
         <>
             <Wrapper
@@ -34,10 +37,13 @@ function KanbanHeader({total, title, type}: KanbanHeaderInterface) {
                     </div>
                 </div>
                 <div>
-                    <i
-                        onClick={()=>setIsOpenModal(true)}
-                        className="bi bi-plus-lg fs-4 pointer"
-                    />
+                    <Add
+                        onClick={handleClick}
+                    >
+                        <i
+                            className="bi bi-plus-lg fs-4 pointer"
+                        />
+                    </Add>
                 </div>
             </Wrapper>
             {isOpenModal &&

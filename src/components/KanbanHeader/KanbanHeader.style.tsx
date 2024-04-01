@@ -7,4 +7,6 @@ export const Wrapper = styled.div<DivProps>`
   color: white;
   background-color: ${props => props.$bgc};
 `;
-
+export const Add = styled.div`
+  all: unset;
+`;
